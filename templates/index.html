@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Folio Library Search{% endblock %}
+
+{% block content %}
+<form action="{{ url_for('results') }}" method="get">
+    <label for="subject">Search by Subject</label>
+    <input type="text" id="subject" name="subject" placeholder="e.g. Computer Science" required maxlength="100">
+    <button type="submit">Search</button>
+</form>
+{% endblock %}
