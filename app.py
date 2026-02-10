@@ -108,10 +108,28 @@ def results():
 
     records = []
     for r in instances:
+        # Extract subjects and contributors
+        subjects_list = []
+        if r.get("subjects"):
+            for s in r["subjects"]:
+                if isinstance(s, dict) and "value" in s:
+                    subjects_list.append(s["value"])
+                else:
+                    subjects_list.append(str(s))
+
+        # Contributors extraction
+        contributors_list = []
+        if r.get("contributors"):
+            for c in r["contributors"]:
+                if isinstance(c, dict) and "name" in c:
+                    contributors_list.append(c["name"])
+                else:
+                    contributors_list.append(str(c))
+
         record = {
             "title": r.get("title", "No Title"),
-            "subjects": r.get("subjects", []),
-            "contributors": [c.get("name") for c in r.get("contributors", [])] if r.get("contributors") else [],
+            "subjects": subjects_list,
+            "contributors": contributors_list,
             "createdDate": r.get("metadata", {}).get("createdDate", "N/A")
         }
         records.append(record)
