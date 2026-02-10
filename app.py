@@ -87,11 +87,21 @@ def results():
     limit = 10
     offset = (page - 1) * limit
 
-    # Logs into a session
-    session = create_session()
+    try:
+        # Get a logged-in session
+        session = create_session()
 
-    # Search for instances
-    data = search_instances(session, subject, limit=limit, offset=offset)
+        # Search for instances
+        data = search_instances(session, subject, limit=limit, offset=offset)
+    except Exception as e:
+        # Handle errors  for the user
+        return render_template("results.html",
+                               records=[],
+                               subject=subject,
+                               page=1,
+                               total_records=0,
+                               limit=10,
+                               error=str(e))
 
     total_records = data.get("totalRecords", 0)
     instances = data.get("instances", [])
