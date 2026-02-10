@@ -77,9 +77,9 @@ This application interacts with the Folio Integrated Library System via its REST
 https://kong-gvsu-test.folio.ebsco.com
 ```
 
-All requests  include the following custom header which is a variable assigned in config.py in the project:
+All requests  include the following custom header which is a variable defined in the file config.py in the project:
 ```
-x-okapi-tenant: x-okapi-tenant value
+x-okapi-tenant: x-okapi-tenant-value
 ```
 ---
 
@@ -95,7 +95,7 @@ POST /authn/login-with-expiry
 **Headers:**
 ```
 Content-Type: application/json
-x-okapi-tenant: fs00001041
+x-okapi-tenant: x-okapi-tenant-value
 ```
 
 **Request Body:**
