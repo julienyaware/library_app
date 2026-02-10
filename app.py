@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 import requests
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -126,11 +127,21 @@ def results():
                 else:
                     contributors_list.append(str(c))
 
+        # Format created date so its more readable
+        created_iso = r.get("metadata", {}).get("createdDate", None)
+        if created_iso:
+                    try:
+                        createdDate = datetime.fromisoformat(created_iso.replace("Z", "+00:00")).strftime(
+                            "%Y-%m-%d %H:%M")
+                    except:
+                        createdDate = created_iso
+        else:
+                    createdDate = "N/A"
         record = {
             "title": r.get("title", "No Title"),
             "subjects": subjects_list,
             "contributors": contributors_list,
-            "createdDate": r.get("metadata", {}).get("createdDate", "N/A")
+            "createdDate": createdDate
         }
         records.append(record)
 
