@@ -26,7 +26,7 @@ def login_and_get_token(session: requests.Session) -> str:
     response.raise_for_status()
 
     for cookie in response.cookies:
-        if "token" in cookie.name.lower():
+        if cookie.name == "folioAccessToken":
             return cookie.value
 
     raise Exception("Authentication failed: access token not found in cookies")
