@@ -1,0 +1,128 @@
+/* Global Styles */
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Container that holds the content */
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px 30px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Page headers */
+h1, h2 {
+    text-align: center;
+    color: #0032a0;
+    margin-bottom: 25px;
+}
+
+/* Search Form Styles */
+form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+/* Input field Styles */
+input[type="text"] {
+    padding: 8px 12px;
+    width: 250px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Button Styles */
+button {
+    padding: 8px 16px;
+    background-color: #0032a0;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0059b3;
+}
+
+/* Pagination Styles */
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination .btn {
+    display: inline-block;
+    padding: 6px 14px;
+    margin: 0 5px;
+    background-color: #0032a0;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.pagination .btn:hover {
+    background-color: #0059b3;
+}
+
+/* Error messages styles */
+.error {
+    color: #d8000c;
+    padding: 10px;
+    border: 1px solid #d8000c;
+    border-radius: 4px;
+    background-color: #ffd2d2;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Links styles*/
+a {
+    color: #0032a0;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Record Card Styling */
+
+.record-card {
+    position: relative;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 15px 20px 15px 48px;
+    margin: 15px 0;
+    background-color: #f0f8ff;
+}
+
+.record-number {
+    position: absolute;
+    left: 18px;
+    top: 18px;
+    font-weight: bold;
+    color: #0032a0;
+}
+
+.record-title-text {
+    display: block;
+    margin-bottom: 6px;
+}
+
+.record-card p {
+    margin: 5px 0;
+    line-height: 1.5;
+}
