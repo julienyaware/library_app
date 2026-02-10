@@ -145,6 +145,16 @@ GET /inventory/instances
 
 > Note: This endpoint is not used in the application UI. It was used for development and debugging purposes to understand the structure of instance records.
 
+## App Preview
+
+### Homepage
+
+<img width="550" height="372" alt="image" src="https://github.com/user-attachments/assets/dd3013ce-d70c-44b6-88d0-91b5279457c6" />
+
+### Search Results
+
+<img width="581" height="681" alt="image" src="https://github.com/user-attachments/assets/86bd4a97-5d0d-4c23-a401-78a02ce67677" />
+
 
 
 
