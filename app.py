@@ -1,14 +1,14 @@
 from flask import Flask, render_template, request
 import requests
 from datetime import datetime
+from config import (
+    API_BASE_URL,
+    X_OKAPI_TENANT_VALUE,
+    USERNAME,
+    PASSWORD
+)
 
 app = Flask(__name__)
-
-# Configuration for access to Folio
-API_BASE_URL = "https://kong-gvsu-test.folio.ebsco.com"
-X_OKAPI_TENANT_VALUE = "fs00001041"
-USERNAME = "chkoutreporttest"
-PASSWORD = "@chKoutreport133"
 
 # Authentication
 def login_and_get_token(session: requests.Session) -> str:
