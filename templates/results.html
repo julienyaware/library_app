@@ -1,7 +1,42 @@
 {% extends "base.html" %}
 
-{% block title %}Folio Library Search{% endblock %}
+{% block title %}Search Results{% endblock %}
 
 {% block content %}
- <p>Results</p>
+ <div class="container">
+    <h2>Search Results for "{{ subject }}"</h2>
+
+    {% if error %}
+        <div class="error">
+            <p><strong>Oops! Something went wrong:</strong> {{ error }}</p>
+        </div>
+    {% elif total_records == 0 %}
+        <p>No results found for "{{ subject }}".</p>
+    {% else %}
+        <p>Showing results {{ (page-1)*limit + 1 }} – {{ (page-1)*limit + records|length }} of {{ total_records }}</p>
+
+        {% for r in records %}
+            <div class="record-card">
+                <p><strong>{{ loop.index + (page-1)*limit }}. Title:</strong> {{ r.title }}</p>
+                <p><strong>Subjects:</strong> {{ r.subjects | join(", ") }}</p>
+                <p><strong>Contributors:</strong> {{ r.contributors | join(", ") if r.contributors else "None" }}</p>
+                <p><strong>Created:</strong> {{ r.createdDate }}</p>
+            </div>
+        {% endfor %}
+
+        <div class="pagination">
+            {% if page > 1 %}
+                <a class="btn" href="{{ url_for('results', subject=subject, page=page-1) }}">Previous</a>
+            {% endif %}
+
+            <span>Page {{ page }} of {{ (total_records // limit) + (1 if total_records % limit > 0 else 0) }}</span>
+
+            {% if page*limit < total_records %}
+                <a class="btn" href="{{ url_for('results', subject=subject, page=page+1) }}">Next</a>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <p><a href="{{ url_for('index') }}">Back to search</a></p>
+</div>
 {% endblock %}
