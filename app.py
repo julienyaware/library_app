@@ -10,33 +10,47 @@ X_OKAPI_TENANT_VALUE = "fs00001041"
 USERNAME = "chkoutreporttest"
 PASSWORD = "@chKoutreport133"
 
-# Create session and login using credentials
-def create_session():
-    """Logs into the FOLIO system using configured
-    credentials and returns a requests.Session with authentication tokens applied."""
+# Authentication
+def login_and_get_token(session: requests.Session) -> str:
+    """
+    Authenticates with the FOLIO system and returns an access token.
+    Session argument has an existing requests.Session with tenant headers set.
+    """
+    login_url = f"{API_BASE_URL}/authn/login-with-expiry"
+    payload = {
+        "username": USERNAME,
+        "password": PASSWORD
+    }
+
+    response = session.post(login_url, json=payload)
+    response.raise_for_status()
+
+    for cookie in response.cookies:
+        if "token" in cookie.name.lower():
+            return cookie.value
+
+    raise Exception("Authentication failed: access token not found in cookies")
+
+
+# Create Session
+def create_authenticated_session() -> requests.Session:
+    """
+    Creates and returns a requests.Session authenticated against FOLIO.
+    The session includes has the required tenant header and authentication token for all subsequent requests
+    """
     session = requests.Session()
 
-    #Tenant header for all Folio requests
-    session.headers.update({"x-okapi-tenant": X_OKAPI_TENANT_VALUE})
+    # Required tenant header for all requests
+    session.headers.update({
+        "x-okapi-tenant": X_OKAPI_TENANT_VALUE
+    })
 
-    login_url = f"{API_BASE_URL}/authn/login-with-expiry"
-    payload = {"username": USERNAME, "password": PASSWORD}
-
-    resp = session.post(login_url, json=payload)
-    resp.raise_for_status()
-
-    # Extract the token from the cookie
-    token = None
-    for cookie in resp.cookies:
-        if "token" in cookie.name.lower():
-            token = cookie.value
-            break
-
-    if not token:
-        raise Exception("Authentication failed: access token not found in cookies")
+    token = login_and_get_token(session)
 
     # Attach token to all future requests
-    session.headers.update({"x-okapi-token": token})
+    session.headers.update({
+        "x-okapi-token": token
+    })
 
     return session
 
@@ -90,7 +104,7 @@ def results():
 
     try:
         # Get a logged-in session
-        session = create_session()
+        session = create_authenticated_session()
 
         # Search for instances
         data = search_instances(session, subject, limit=limit, offset=offset)
