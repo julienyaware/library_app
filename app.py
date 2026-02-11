@@ -89,23 +89,12 @@ def search_instances(session, subject, limit=10, offset=0):
     resp.raise_for_status()
     return resp.json()
 
-def get_all_instances(session, limit=10, offset=0):
-    """
-    This is just for debugging purposes. Retrieve all instance records at once.
-    """
-    url = f"{API_BASE_URL}/inventory/instances"
-    params = {"limit": limit, "offset": offset}
-
-    resp = session.get(url, params=params)
-    resp.raise_for_status()
-    return resp.json()
-
-
 # Home page route
 @app.route("/", methods=["GET"])
 def index():
     return render_template("index.html")
 
+#Search results page route
 @app.route("/results", methods=["GET"])
 def results():
     subject = request.args.get("subject", "").strip()
