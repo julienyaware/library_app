@@ -14,7 +14,12 @@ app = Flask(__name__)
 def login_and_get_token(session: requests.Session) -> str:
     """
     Authenticates with the FOLIO system and returns an access token.
-    Session argument has an existing requests.Session with tenant headers set.
+
+    Parameters:
+    session (requests.Session): An existing requests session with the required tenant header.
+
+    Returns:a string with the authentication token obtained from Folio cookies.
+
     """
     login_url = f"{API_BASE_URL}/authn/login-with-expiry"
     payload = {
@@ -35,8 +40,13 @@ def login_and_get_token(session: requests.Session) -> str:
 # Create Session
 def create_authenticated_session() -> requests.Session:
     """
-    Creates and returns a requests.Session authenticated against FOLIO.
-    The session includes has the required tenant header and authentication token for all subsequent requests
+    Creates a fully authenticated requests.Session for interacting with Folio APIs.
+
+    Returns requests.Session: A session object with tenant header and access token set.
+
+    Uses `login_and_get_token()` internally to retrieve the access token.
+    All future API requests made with this session will include the required
+    authentication and tenant headers.
     """
     session = requests.Session()
 
@@ -56,12 +66,21 @@ def create_authenticated_session() -> requests.Session:
 
 def search_instances(session, subject, limit=10, offset=0):
     """
-    Search instances by a specific value.
+       Search Folio instance records by exact subject heading.
+
+       Parameters:
+       session: authenticated requests session
+       subject: the subject heading to search
+       limit: max results per page
+       offset: number of results to skip (for pagination)
+
+       Returns:
+       dict: API response with matching instances
     """
     url = f"{API_BASE_URL}/search/instances"
     params = {
         "expandAll": "true",
-        "query": f'subjects=="{subject}"',
+        "query": f'subjects=="{subject}.lower()"',
         "limit": limit,
         "offset": offset
     }
@@ -72,7 +91,7 @@ def search_instances(session, subject, limit=10, offset=0):
 
 def get_all_instances(session, limit=10, offset=0):
     """
-    Retrieve all instance records at once.
+    This is just for debugging purposes. Retrieve all instance records at once.
     """
     url = f"{API_BASE_URL}/inventory/instances"
     params = {"limit": limit, "offset": offset}
@@ -132,7 +151,7 @@ def results():
                 else:
                     subjects_list.append(str(s))
 
-        # Contributors extraction
+        # Extract contributors
         contributors_list = []
         if r.get("contributors"):
             for c in r["contributors"]:

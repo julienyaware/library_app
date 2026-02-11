@@ -8,7 +8,7 @@
 
     {% if error %}
     <div class="error">
-        <p><strong>Oops! Something went wrong:</strong> {{ error }}</p>
+        <p><strong>Oops! Something went wrong Please try again:</strong> {{ error }}</p>
     </div>
     {% elif total_records == 0 %}
     <p>No results found for "{{ subject }}".</p>
@@ -20,7 +20,7 @@
         <div class="record-title">
                   <span class="record-number">
     {{ loop.index + (page-1)*limit }}.
-</span>
+                  </span>
 
             <p class="record-title-text">
                 <strong>Title:</strong> {{ r.title }}
